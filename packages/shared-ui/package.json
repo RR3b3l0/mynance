@@ -1,0 +1,16 @@
+{
+  "name": "@mynance/shared-ui",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "dependencies": {
+    "react-native": "0.72.4",
+    "react": "18.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.4",
+    "tsconfig": "*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

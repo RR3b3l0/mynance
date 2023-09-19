@@ -1,4 +1,4 @@
-package com.mynace;
+package com.mynance;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
