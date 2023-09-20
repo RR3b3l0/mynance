@@ -16,5 +16,13 @@ module.exports = {
 
     return config;
   },
-  transpilePackages: ['@mynance/shared-ui']
+  transpilePackages: ["@mynance/shared-ui"],
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*", // Match any route starting with /api/
+        destination: "http://localhost:8000/api/:path*", // Your target server URL
+      },
+    ];
+  },
 };

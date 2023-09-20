@@ -1,0 +1,9 @@
+{
+    "extends": "tsconfig/server",
+    "include": ["."],
+    "exclude": ["dist", "build", "node_modules"],
+    "compilerOptions": {
+      "strict": true
+    }
+  }
+  

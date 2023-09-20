@@ -1,11 +1,11 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
-import {TestComponent} from '@mynance/shared-ui';
+// import {TestComponent} from '@mynance/shared-ui';
 
 function App(): JSX.Element {
   return (
     <SafeAreaView style={styles.container}>
-      <TestComponent />
+      {/* <TestComponent /> */}
     </SafeAreaView>
   );
 }
