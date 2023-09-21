@@ -11,7 +11,7 @@ const HomeScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   if (isLoading) {
-    return <ActivityIndicator />;
+    return <ActivityIndicator testID='loading'/>;
   }
 
   if (isError) {
