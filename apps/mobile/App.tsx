@@ -1,19 +1,18 @@
+import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
-import {TestComponent} from '@mynance/shared-ui';
+import RootStack from './src/navigation/RootStack';
+import {QueryClient, QueryClientProvider} from 'react-query';
+
+const queryClient = new QueryClient();
 
 function App(): JSX.Element {
   return (
-    <SafeAreaView style={styles.container}>
-      <TestComponent />
-    </SafeAreaView>
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <RootStack />
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;
