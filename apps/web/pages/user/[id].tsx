@@ -2,12 +2,6 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { UserDetail } from "@mynance/shared-ui";
-import {
-  onAddExpense,
-  onAddMovement,
-  onDeleteExpense,
-  onDeleteMovement,
-} from "../../api/userApi";
 
 export default function User() {
   const router = useRouter();
@@ -44,29 +38,7 @@ export default function User() {
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <UserDetail
-        user={user}
-        onAddMovement={(amount: number, description: string) => {
-          if (id && typeof id == "string") {
-            onAddMovement(id, amount, description, refreshData);
-          }
-        }}
-        onAddExpense={(name: string, amount: number, description: string) => {
-          if (id && typeof id == "string") {
-            onAddExpense(id, name, amount, description, refreshData);
-          }
-        }}
-        onDeleteExpense={(expenseId: number) => {
-          if (id && typeof id == "string") {
-            onDeleteExpense(id, expenseId, refreshData);
-          }
-        }}
-        onDeleteMovement={(movementId: number) => {
-          if (id && typeof id == "string") {
-            onDeleteMovement(id, movementId, refreshData);
-          }
-        }}
-      />
+      <UserDetail user={user} refreshData={refreshData} />
     </div>
   );
 }

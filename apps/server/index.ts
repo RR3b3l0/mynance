@@ -47,12 +47,31 @@ app.get("/users/:id", async (req: Request, res: Response) => {
   res.json(newUser);
 });
 
-app.post("/users/delete/:id", async (req: Request, res: Response) => {
+app.post("/users/delete/:id", async (req, res) => {
   const { id } = req.params;
-  const user = await prisma.user.delete({
-    where: { id: parseInt(id) },
-  });
-  res.json(user);
+
+  try {
+    await prisma.$transaction(async (transactionPrisma) => {
+      await transactionPrisma.movement.deleteMany({
+        where: { userId: parseInt(id) },
+      });
+
+      await transactionPrisma.expenses.deleteMany({
+        where: { userId: parseInt(id) },
+      });
+
+      await transactionPrisma.user.delete({
+        where: { id: parseInt(id) },
+      });
+    });
+
+    res.json({ message: "User and related records deleted successfully." });
+  } catch (error) {
+    console.error("Transaction failed:", error);
+    res.status(500).json({ error: "Transaction failed" });
+  } finally {
+    await prisma.$disconnect();
+  }
 });
 
 app.post("/users", async (req: Request, res: Response) => {

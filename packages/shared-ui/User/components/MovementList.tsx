@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { Button, StyleSheet, TextInput, View, Text } from "react-native";
 import { Movement } from "../types";
+import { addMovement, deleteMovement } from "../../api";
 
 const UserDetail = ({
+  refreshData,
+  id,
   movements,
-  onAddMovement,
-  onDeleteMovement,
 }: {
+  refreshData: () => void;
+  id: string;
   movements: Movement[];
-  onAddMovement: (amount: number, description: string) => void;
-  onDeleteMovement: (movementId: number) => void;
 }) => {
-  const [addMovement, setAddMovement] = useState(false);
+  const [openAddMovement, setOpenAddMovement] = useState(false);
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState<number | null>(null);
 
@@ -21,10 +22,10 @@ const UserDetail = ({
         <Text style={styles.title}>MOVEMENTS</Text>
         <Button
           title={"Add Movement"}
-          onPress={() => setAddMovement(!addMovement)}
+          onPress={() => setOpenAddMovement(!openAddMovement)}
         />
       </View>
-      {addMovement ? (
+      {openAddMovement ? (
         <View>
           <TextInput
             style={styles.input}
@@ -42,21 +43,20 @@ const UserDetail = ({
 
               if (regex.test(number) || number === "") {
                 // If the input matches the numeric pattern or is empty, update the state
-                setAmount(parseFloat(number))
+                setAmount(parseFloat(number));
               }
             }}
-            keyboardType="numeric"
             inputMode="numeric"
             autoCapitalize={"none"}
           />
           <Button
             title={"Add"}
-            onPress={() => {
-              setAddMovement(false);
+            onPress={async () => {
+              setOpenAddMovement(false);
               setDescription("");
               setAmount(null);
               if (amount && description) {
-                onAddMovement(amount, description);
+                await addMovement(id, amount, description, refreshData);
               }
             }}
           />
@@ -71,6 +71,7 @@ const UserDetail = ({
           </View>
           {movements.map((movement) => (
             <View
+              key={`movement_${movement.id}`}
               style={[
                 styles.itemContainer,
                 { backgroundColor: "white", borderRadius: 10 },
@@ -81,8 +82,8 @@ const UserDetail = ({
               <Text>{movement.previousBalance}</Text>
               <Button
                 title={"Delete"}
-                onPress={() => {
-                  onDeleteMovement(movement.id);
+                onPress={async () => {
+                  await deleteMovement(id, movement.id, refreshData);
                 }}
               />
             </View>
@@ -96,7 +97,6 @@ const UserDetail = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: 480,
     backgroundColor: "#62A8AC",
     margin: 10,
   },
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     height: 40,
     marginBottom: 10,
     backgroundColor: "#fff",
-    padding: 20,
+    paddingLeft: 10,
   },
   itemContainer: {
     flexDirection: "row",

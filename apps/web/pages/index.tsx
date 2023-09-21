@@ -18,19 +18,9 @@ export default function User({ users }) {
     }
   };
 
-  const handleDeleteUser = async (id: string) => {
-    const URL = `http://localhost:8000/users/delete/${id}`;
-    try {
-      await axios.post(URL);
-      refreshData(); // Refresh data after successful deletion
-    } catch (error) {
-      console.error("Error deleting user:", error);
-    }
-  };
-
   const handleUserNavigate = (id: string) => {
     router.push(`/user/${id}`);
-  }
+  };
 
   if (users.length <= 0) {
     return (
@@ -44,20 +34,7 @@ export default function User({ users }) {
         <h1>
           Seems you haven't started yet, please add your information below
         </h1>
-        <InformationForm
-          onRegister={async ({ name, balance }) => {
-            const URL = `http://localhost:8000/users`;
-            try {
-              await axios.post(URL, {
-                name,
-                balance,
-              });
-              refreshData(); // Refresh data after successful registration
-            } catch (error) {
-              console.error("Error registering user:", error);
-            }
-          }}
-        />
+        <InformationForm refreshData={refreshData} />
       </div>
     );
   }
@@ -68,13 +45,23 @@ export default function User({ users }) {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        width: "100%",
       }}
     >
-      <UserList
-        users={users}
-        onDeleteUser={handleDeleteUser}
-        onNavigateToUser={handleUserNavigate}
-      />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "70%",
+        }}
+      >
+        <UserList
+          users={users}
+          refreshData={refreshData}
+          onNavigateToUser={handleUserNavigate}
+        />
+      </div>
     </div>
   );
 }

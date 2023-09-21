@@ -1,24 +1,21 @@
 import React from "react";
-import { Button, StyleSheet, TextInput, View, Text } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { UserInfo } from "./types";
 import MovementList from "./components/MovementList";
 import ExpensesList from "./components/ExpensesList";
 
 const UserDetail = ({
   user,
-  onAddMovement,
-  onDeleteMovement,
-  onAddExpense,
-  onDeleteExpense,
+  refreshData,
 }: {
   user: UserInfo;
-  onAddMovement: (amount: number, description: string) => void;
-  onDeleteMovement: (movementId: number) => void;
-  onAddExpense: (name: string, amount: number, description: string) => void;
-  onDeleteExpense: (expenseId: number) => void;
+  refreshData: () => void;
 }) => {
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contantContainer}
+    >
       <Text style={styles.title}>USER INFO</Text>
       <Text style={styles.name}>NAME: {user.name}</Text>
       <View style={styles.row}>
@@ -31,26 +28,28 @@ const UserDetail = ({
           <Text>{user.totalExpenses}€</Text>
         </View>
       </View>
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+      <View style={styles.listContainer}>
         <MovementList
+          refreshData={refreshData}
+          id={user.id}
           movements={user.movements ?? []}
-          onAddMovement={onAddMovement}
-          onDeleteMovement={onDeleteMovement}
         />
         <ExpensesList
+          refreshData={refreshData}
+          id={user.id}
           expenses={user.expenses ?? []}
-          onAddExpense={onAddExpense}
-          onDeleteExpense={onDeleteExpense}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: 1000,
+    width: "100%",
+  },
+  contantContainer: {
     backgroundColor: "#A1D2CE",
     padding: 20,
     borderRadius: 10,
@@ -75,6 +74,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     margin: 20,
+  },
+  listContainer: {
+    flexDirection: "column",
+    // justifyContent: "space-between",
+    width: "100%",
   },
 });
 

@@ -1,17 +1,9 @@
 import React, { useState } from "react";
-import { Button, StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
+import { registerUser } from "./api";
+import Button from "./components/Button";
 
-const InformationForm = ({
-  onRegister,
-}: {
-  onRegister: ({
-    name,
-    balance,
-  }: {
-    name: string;
-    balance: number | null;
-  }) => void;
-}) => {
+const InformationForm = ({ refreshData }: { refreshData: () => void }) => {
   const [name, setName] = useState("");
   const [balance, setBalance] = useState<number | null>(null);
 
@@ -43,7 +35,9 @@ const InformationForm = ({
       <Button
         disabled={!balance || !name}
         title={"Register information"}
-        onPress={() => onRegister({ name, balance })}
+        onPress={() => {
+          if (balance) registerUser(name, balance, refreshData);
+        }}
       />
     </View>
   );
@@ -52,7 +46,7 @@ const InformationForm = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: 500,
+    width: "80%",
     backgroundColor: "gray",
     padding: 20,
     borderRadius: 10,
@@ -60,8 +54,12 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     marginBottom: 10,
-    backgroundColor: "#fff",
-    padding: 20,
+    backgroundColor: "white",
+    color: "black",
+    paddingLeft: 10,
+    borderColor: "#555555",
+    borderWidth: 1,
+    borderRadius: 2,
   },
 });
 
