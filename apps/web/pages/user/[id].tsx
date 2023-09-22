@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { UserDetail } from "@mynance/shared-ui";
 
 export default function User() {
@@ -8,7 +8,7 @@ export default function User() {
   const { id } = router.query;
   const [user, setUser] = useState(null);
 
-  const refreshData = async () => {
+  const refreshData = useCallback(async () => {
     try {
       const URL = `http://localhost:8000/users/${id}`;
       const response = await axios.get(URL);
@@ -17,7 +17,7 @@ export default function User() {
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     // Fetch user data when the component mounts
@@ -28,7 +28,7 @@ export default function User() {
     if (id) {
       fetchUser();
     }
-  }, [id]);
+  }, [id, refreshData]);
 
   if (!user) {
     return <p>Loading...</p>;

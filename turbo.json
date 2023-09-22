@@ -10,20 +10,24 @@
     "start": {
       "dependsOn": ["build"]
     },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "e2e:test": {
+      "dependsOn": ["^build"]
+    },
+    "lint": {},
     "dev": {
       "cache": false,
       "persistent": true,
-      "dotEnv": [".env.production.local", ".env.local", ".env.production", ".env"]
+      "dotEnv": [
+        ".env.production.local",
+        ".env.local",
+        ".env.production",
+        ".env"
+      ]
     },
-    "dev:server": {
-      "cache": false,
-      "persistent": true
-    },
-    "test": {
-      "cache": false
-    },
-    "lint": {},
-    "clean": {
+    "dev:test": {
       "cache": false
     }
   }

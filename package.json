@@ -8,11 +8,15 @@
     "dev": "dotenv -- turbo dev",
     "build": "dotenv -- turbo build",
     "test": "dotenv -- turbo test",
-    "test:watch": "dotenv -- turbo test:watch",
+    "dev:test": "dotenv -- turbo dev:test",
+    "e2e:test": "dotenv -- turbo e2e:test",
+    "lint": "turbo lint",
+    "ci": "turbo run build lint e2e:test test",
     "clean": "turbo clean && rm -rf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore",
     "postinstall": "prisma generate && yarn pod-install",
-    "pod-install": "cd apps/mobile && npx pod-install && cd ../../"
+    "pod-install": "cd apps/mobile && npx pod-install && cd ../../",
+    "db-push": "cd apps/server && npx prisma db push"
   },
   "devDependencies": {
     "dotenv-cli": "^7.3.0",
