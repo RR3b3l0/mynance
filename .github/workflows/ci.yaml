@@ -41,5 +41,5 @@ jobs:
 
       - name: Run CI
         env:
-          SERVER_DATABASE_URL: postgresql://postgresql:postgresql@localhost:5432/mynance
+          SERVER_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/mynance
         run: yarn ci
