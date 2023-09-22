@@ -32,7 +32,7 @@ export default function User({ users }) {
         }}
       >
         <h1>
-          Seems you haven't started yet, please add your information below
+          {"Seems you haven't started yet, please add your information below"}
         </h1>
         <InformationForm refreshData={refreshData} />
       </div>
