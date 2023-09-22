@@ -39,6 +39,9 @@ jobs:
       - name: Install playwright driver
         run: yarn playwright install chromium
 
+      - name: Create db
+        run: yarn db-push
+
       - name: Run CI
         env:
           SERVER_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/mynance
